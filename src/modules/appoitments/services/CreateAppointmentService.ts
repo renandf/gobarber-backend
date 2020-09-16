@@ -1,41 +1,38 @@
-import { startOfHour } from "date-fns";
-import { getCustomRepository } from "typeorm";
+import { startOfHour } from 'date-fns';
 
-import AppError from "@shared/errors/AppError";
+import AppError from '@shared/errors/AppError';
 
-import Appointment from "../infra/typeorm/entities/Appointment";
-import AppointmentsRepository from "../infra/typeorm/repositories/AppointmentsRepository";
+import Appointment from '../infra/typeorm/entities/Appointment';
+import IAppointmentsRepository from '../repositories/IAppointmentsRepository';
 
-interface Request {
-	provider_id: string;
-	date: Date;
+interface IRequest {
+  provider_id: string;
+  date: Date;
 }
 
 class CreateAppointmentService {
-	public async execute({ provider_id, date }: Request): Promise<Appointment> {
-		const appointmentsRepository = getCustomRepository(AppointmentsRepository);
+  constructor(private appointmentsRepository: IAppointmentsRepository) { }
 
-		const appointmentDate = startOfHour(date);
+  public async execute({ provider_id, date }: IRequest): Promise<Appointment> {
+    const appointmentDate = startOfHour(date);
 
-		const findAppointmentInSameDate = await appointmentsRepository.findByDate(
-			appointmentDate
-		);
+    const findAppointmentInSameDate = await this.appointmentsRepository.findByDate(
+      appointmentDate,
+    );
 
-		if (findAppointmentInSameDate) {
-			throw new AppError(
-				`There's already an appointment booked for ${appointmentDate}.`
-			);
-		}
+    if (findAppointmentInSameDate) {
+      throw new AppError(
+        `There's already an appointment booked for ${appointmentDate}.`,
+      );
+    }
 
-		const appointment = appointmentsRepository.create({
-			provider_id,
-			date: appointmentDate,
-		});
+    const appointment = await this.appointmentsRepository.create({
+      provider_id,
+      date: appointmentDate,
+    });
 
-		await appointmentsRepository.save(appointment);
-
-		return appointment;
-	}
+    return appointment;
+  }
 }
 
 export default CreateAppointmentService;
