@@ -38,7 +38,7 @@ describe('AuthenticateUser', () => {
     expect(response).toHaveProperty('token');
   });
 
-  it('should not be able to authenticate with non existing user', async () => {
+  it('should not be able to authenticate with non-existent user', async () => {
     const fakeUsersRepository = new FakeUsersRepository();
     const fakeHashProvider = new FakeHashProvider();
 
