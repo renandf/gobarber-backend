@@ -47,9 +47,9 @@ describe('AuthenticateUser', () => {
       fakeHashProvider,
     );
 
-    expect(authenticateUser.execute(testReturningUser)).rejects.toBeInstanceOf(
-      AppError,
-    );
+    await expect(
+      authenticateUser.execute(testReturningUser),
+    ).rejects.toBeInstanceOf(AppError);
   });
 
   it('should not be able to authenticate with wrong password', async () => {
@@ -68,7 +68,7 @@ describe('AuthenticateUser', () => {
 
     await createUser.execute(testNewUser);
 
-    expect(
+    await expect(
       authenticateUser.execute({
         email: 'johndoe@example.com',
         password: 'wrong-password',
