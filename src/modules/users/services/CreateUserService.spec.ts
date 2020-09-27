@@ -28,7 +28,7 @@ describe('CreateUser', () => {
     expect(user).toHaveProperty('id');
   });
 
-  it('should not allow user creation with existing email', async () => {
+  it('should not allow user creation if email already exists in the DB', async () => {
     await createUser.execute(testUser);
 
     await expect(createUser.execute(testUser)).rejects.toBeInstanceOf(AppError);
