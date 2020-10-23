@@ -5,8 +5,8 @@ import IAppointmentsRepository from '../repositories/IAppointmentsRepository';
 
 interface IRequest {
   provider_id: string;
-  month: number;
   year: number;
+  month: number;
 }
 
 type IResponse = Array<{
@@ -29,8 +29,8 @@ class ListProviderMonthAvailabilityService {
     const appointments = await this.appointmentsRepository.findDailyAvailabilityInMonth(
       {
         provider_id,
-        month,
         year,
+        month,
       },
     );
 
