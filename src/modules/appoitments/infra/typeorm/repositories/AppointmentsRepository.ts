@@ -1,13 +1,13 @@
 import { getRepository, Repository, Raw } from 'typeorm';
 
-import IAppointmentRepository from '@modules/appoitments/repositories/IAppointmentsRepository';
+import IAppointmentsRepository from '@modules/appoitments/repositories/IAppointmentsRepository';
 import ICreateAppointmentDTO from '@modules/appoitments/dtos/ICreateAppointmentDTO';
 import IFindDailyAvailabilityInMonthDTO from '@modules/appoitments/dtos/IFindDailyAvailabilityInMonthDTO';
 import IFindHourlyAvailabilityInDayDTO from '@modules/appoitments/dtos/IFindHourlyAvailabilityInDayDTO';
 
 import Appointment from '../entities/Appointment';
 
-class AppointmentsRepository implements IAppointmentRepository {
+class AppointmentsRepository implements IAppointmentsRepository {
   private ormRepository: Repository<Appointment>;
 
   constructor() {
