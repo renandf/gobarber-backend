@@ -51,6 +51,7 @@ class CreateAppointmentService {
 
     const findAppointmentInSameDate = await this.appointmentsRepository.findByDate(
       appointmentDate,
+      provider_id,
     );
 
     const dateFormatted = format(appointmentDate, "dd MMM yyyy 'at' HH:mm");
